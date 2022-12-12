@@ -1,0 +1,21 @@
+---
+# Playbook with multiple plays in our stack
+
+- name: apply the configuration to all hosts
+  hosts: all
+  remote_user: vagrant
+  become: yes
+
+  roles: 
+  - common
+
+- name: apply the apache and web roles
+  hosts: webservers
+  remote_user: vagrant
+  become: yes
+
+  roles: 
+  - apache
+  - web
+
+# - name: loadbalancers config here if using them or any databases
