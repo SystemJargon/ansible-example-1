@@ -1,0 +1,24 @@
+{% set pihole_ip = '192.168.1.100' %}
+{% set pihole_password = 'mypassword' %}
+{% set pihole_web_port = '80' %}
+{% set pihole_dns_port = '53' %}
+
+# Install Pi-hole
+curl -sSL https://install.pi-hole.net | bash
+
+# Set the IP address for the Pi-hole web interface
+sed -i "s/IPV4_ADDRESS=.*/IPV4_ADDRESS={{ pihole_ip }}/" /etc/pihole/setupVars.conf
+
+# Set the password for the Pi-hole web interface
+pihole -a -p {{ pihole_password }}
+
+# Set the port for the Pi-hole web interface
+sed -i "s/WEBPASSWORD=.*/WEBPASSWORD={{ pihole_password }}/" /etc/pihole/setupVars.conf
+sed -i "s/WEBPORT=.*/WEBPORT={{ pihole_web_port }}/" /etc/pihole/setupVars.conf
+
+# Set the port for the Pi-hole DNS service
+sed -i "s/DNSMASQ_LISTENING=.*/DNSMASQ_LISTENING=local/" /etc/dnsmasq.d/01-pihole.conf
+sed -i "s/PIHOLE_DNS_1=.*/PIHOLE_DNS_1={{ pihole_ip }}#{{ pihole_dns_port }}/" /etc/pihole/setupVars.conf
+
+# Restart Pi-hole to apply the changes
+pihole restartdns
