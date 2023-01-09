@@ -5,8 +5,9 @@ Then restart Pi-hole to apply the changes.
 You can use this template by filling in the values for 
 
 ```
-pihole_ip, pihole_password, pihole_web_port,``` and ```pihole_dns_port ```
-```
+pihole_ip, pihole_password, pihole_web_port, pihole_dns_port
+``` 
+
 
 Then running the template with Jinja. 
 
